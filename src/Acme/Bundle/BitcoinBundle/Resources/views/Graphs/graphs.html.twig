@@ -1,27 +1,38 @@
-<form method="post">
-    <div class="btn-group btn-group-xs pull-left" data-toggle="buttons">
-        <label class="btn btn-primary active" id="">
-            <input onchange="this.form.submit();" type="radio" name="buyfees" value="no" autocomplete="off"> No fees
-        </label>
-        <label class="btn btn-primary" id="">
-            <input onchange="this.form.submit();" type="radio" name="buyfees" value="yes" autocomplete="off"> Fees
-        </label>
-    </div>
-</form>
 
-<div class="chart-container">
-    <iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
-    <canvas class="charts" id="buycharts" style="width: 1118px; height: 559px;" width="1118" height="559">
+            <div class="container">
+                <form method="post">
+                    <div class="btn-group btn-group-xs pull-right" data-toggle="buttons">
+                        <label class="btn btn-primary" id="optionbuy1hr">
+                            <input onChange="this.form.submit();" type="radio" name="optionsbuy" value="1hr" autocomplete="off"> 1 hr
+                        </label>
+                        <label class="btn btn-primary" id="optionbuy12hr">
+                            <input onChange="this.form.submit();" type="radio" name="optionsbuy" value="12hr" autocomplete="off"> 12 hr
+                        </label>
+                        <label class="btn btn-primary" id="optionbuy24hr">
+                            <input onChange="this.form.submit();" type="radio" name="optionsbuy" value="24hr" autocomplete="off"> 24 hr
+                        </label>
+                    </div>
+                </form>
+                <form method="post">
+                    <div class="btn-group btn-group-xs pull-left" data-toggle="buttons">
+                        <label class="btn btn-primary" id="buyfeesno">
+                            <input onChange="this.form.submit();" type="radio" name="buyfees" value="no" autocomplete="off"> No fees
+                        </label>
+                        <label class="btn btn-primary" id="buyfeesyes">
+                            <input onChange="this.form.submit();" type="radio" name="buyfees" value="yes" autocomplete="off"> Fees
+                        </label>
+                    </div>
+                </form>
+            </div><br/>
 
-    </canvas>
-</div>
 
-<div class="chart-container">
-    <iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
-                <canvas class="charts" id="feescharts" style="width: 1118px; height: 559px;" width="1118" height="559"></canvas>
+            <div class="chart-container">
+                <canvas class="charts" id="buycharts"></canvas>
             </div>
 
- <canvas id="chartJSContainer" width="600" height="400"></canvas>
+            <br/><br/>
+
+   <canvas id="chartJSContainer" width="600" height="400"></canvas>
 
 
 <script>
@@ -83,6 +94,7 @@ var charts = {};
                         legendPosition: 'bottom',
                         color: '#900',
                         labelvalues: ['-24hr', '-23h50m', '-23h40m', '-23h30m', '-23h20m', '-23h10m', '-23hr', '-22h50m', '-22h40m', '-22h30m', '-22h20m', '-22h10m', '-22hr', '-21h50m', '-21h40m', '-21h30m', '-21h20m', '-21h10m', '-21hr', '-20h50m', '-20h40m', '-20h30m', '-20h20m', '-20h10m', '-20hr', '-19h50m', '-19h40m', '-19h30m', '-19h20m', '-19h10m', '-19hr', '-18h50m', '-18h40m', '-18h30m', '-18h20m', '-18h10m', '-18hr', '-17h50m', '-17h40m', '-17h30m', '-17h20m', '-17h10m', '-17hr', '-16h50m', '-16h40m', '-16h30m', '-16h20m', '-16h10m', '-16hr', '-15h50m', '-15h40m', '-15h30m', '-15h20m', '-15h10m', '-15hr', '-14h50m', '-14h40m', '-14h30m', '-14h20m', '-14h10m', '-14hr', '-13h50m', '-13h40m', '-13h30m', '-13h20m', '-13h10m', '-13hr', '-12h50m', '-12h40m', '-12h30m', '-12h20m', '-12h10m', '-12hr', '-11h50m', '-11h40m', '-11h30m', '-11h20m', '-11h10m', '-11hr', '-10h50m', '-10h40m', '-10h30m', '-10h20m', '-10h10m', '-10hr', '-9h50m', '-9h40m', '-9h30m', '-9h20m', '-9h10m', '-9hr', '-8h50m', '-8h40m', '-8h30m', '-8h20m', '-8h10m', '-8hr', '-7h50m', '-7h40m', '-7h30m', '-7h20m', '-7h10m', '-7hr', '-6h50m', '-6h40m', '-6h30m', '-6h20m', '-6h10m', '-6hr', '-5h50m', '-5h40m', '-5h30m', '-5h20m', '-5h10m', '-5hr', '-4h50m', '-4h40m', '-4h30m', '-4h20m', '-4h10m', '-4hr', '-3h50m', '-3h40m', '-3h30m', '-3h20m', '-3h10m', '-3hr', '-2h50m', '-2h40m', '-2h30m', '-2h20m', '-2h10m', '-2hr', '-1h50m', '-1h40m', '-1h30m', '-1h20m', '-1h10m', '-1hr', '-50m', '-40m', '-30m', '-20m', '-10m', '0m'],
+                        
                         data: [],
                         heading: 'BITCOIN BUY RATES',
                         min: 0,
@@ -119,18 +131,48 @@ var charts = {};
                         max: 0,
                         labelstring: 'Profit [%]'
                     }].forEach(function (details) {
-                    
-                    var ctx = document.getElementById(details.id).getContext('2d');
-                    console.log(details);
+
+                    var ctx = document.getElementById('buycharts').getContext('2d');
+                    console.log(details.data);
                     var config = createConfig(details.legendPosition, details.color, details.labelvalues, details.heading, details.data, details.min, details.max, details.labelstring);
                     var cid = details.id;
                     charts[cid] = new Chart(ctx, config);
                 })
             }
-            ;
+            
            updatechart();
+{#var options = {
+  type: 'line',
+  data: {
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    datasets: 
+            [
+	    {
+	      label: '# of Votes',
+	      data: [12, 19, 3, 5, 2, 3],
+      	borderWidth: 1
+    	},
+			{
+				label: '# of Points',
+				data: [7, 11, 5, 8, 3, 7],
+				borderWidth: 1
+			}
+		]
+  },
+  options: {
+  	scales: {
+    	yAxes: [{
+        ticks: {
+					reverse: false
+        }
+      }]
+    }
+  }
+}
 
-            {#function updatedata()
+var ctx = document.getElementById('buychart').getContext('2d');
+new Chart(ctx, options);#}
+            function updatedata()
             {
                 var minbuyid;
                 var maxsellid;
@@ -197,10 +239,10 @@ var charts = {};
                     $('#' + maxsellid + '_sellraterow').addClass('success');
                     $('#' + minbuyidfees + '_buyratefeesrow').addClass('success');
                     $('#' + maxsellidfees + '_sellratefeesrow').addClass('success');
-                    charts['buychart'].options.scales.yAxes[0].ticks.suggestedMax = result.graph.maxbuygraph;
-                    charts['buychart'].options.scales.yAxes[0].ticks.suggestedMin = result.graph.minbuygraph;
-                    charts['buychart'].data.datasets = result.graph.buygraphdata;
-                    charts['buychart'].update();
+                    charts['buycharts'].options.scales.yAxes[0].ticks.suggestedMax = result.graph.maxbuygraph;
+                    charts['buycharts'].options.scales.yAxes[0].ticks.suggestedMin = result.graph.minbuygraph;
+                    charts['buycharts'].data.datasets = result.graph.buygraphdata;
+                    charts['buycharts'].update();
 
                     charts['sellchart'].options.scales.yAxes[0].ticks.suggestedMax = result.graph.maxsellgraph;
                     charts['sellchart'].options.scales.yAxes[0].ticks.suggestedMin = result.graph.minsellgraph;
@@ -220,10 +262,10 @@ var charts = {};
                 });
                 setTimeout(updatedata, 60000);
             }
-          
-#}
 
-            $(".charts").mouseover(function (e) {
+
+
+           $(".charts").mouseover(function (e) {
                 var cid = $(this).attr('id');
 
                 for (var i = 0; i < charts[cid].data.datasets.length; i++)
