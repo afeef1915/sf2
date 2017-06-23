@@ -1,0 +1,6 @@
+acme_bitcoin_homepage:
+    path:     /
+    defaults: { _controller: AcmeBitcoinBundle:Default:index }
+acme_bitcoin_datatable:
+    path:     /bitcoin-datatable
+    defaults: { _controller: AcmeBitcoinBundle:Default:datatable }
